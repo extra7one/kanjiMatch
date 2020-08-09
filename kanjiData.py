@@ -16,7 +16,10 @@ class KanjiData:
         card = random.choice(list(self.deck[difficulty].items()))
 
         (key, value) = card
-        self.deck[difficulty].pop(key)
+
+        for k, v in list(self.deck[difficulty].items()):
+            if v == value:
+                self.deck[difficulty].pop(k)
 
         if len(self.deck[difficulty]) == 0:
             self.resetDeck()
