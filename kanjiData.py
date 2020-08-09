@@ -4,7 +4,7 @@ import copy
 class KanjiData:
 
     def __init__(self):
-        with open("data/kanji.json", "r") as file:
+        with open("data/kanji.json", "r", encoding="utf-8") as file:
             self.data = json.load(file)
             self.resetDeck()
 

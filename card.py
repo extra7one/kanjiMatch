@@ -7,6 +7,7 @@ class Card:
     color = (135, 166, 222)
     hoveredColor = (129, 179, 240)
     selectedColor = (110, 194, 255)
+    highlightColor = (155, 182, 232)
     errorColor = (255, 100, 100)
     correctColor = (100, 255, 100)
     hovered = False
@@ -14,12 +15,13 @@ class Card:
     id = 0
     selected = False
     destroyed = False
+    kana = False
     destructionTimer = 0
     maxDestructionTimer = 25
     errorTimer = 0
     maxErrorTimer = 15
 
-    SIZE = 50
+    SIZE = 60
     SPACING = 10
 
     def __init__(self, x, y):
@@ -33,7 +35,7 @@ class Card:
         else:
             self.hovered = False
 
-    def draw(self, screen, font):
+    def draw(self, screen, font, highlight):
 
         surface = pygame.Surface((self.SIZE, self.SIZE))
         posX = 0
@@ -53,6 +55,8 @@ class Card:
             posY += randint(-3, 3)
         elif self.hovered:
             color = self.hoveredColor
+        elif highlight:
+            color = self.highlightColor
 
         pygame.draw.rect(surface, color, (0, 0, self.SIZE, self.SIZE), 0)
         textSurface, textRect = font.render(self.text)

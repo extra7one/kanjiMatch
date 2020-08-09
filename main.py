@@ -5,10 +5,11 @@ from card import Card
 from kanjiData import KanjiData
 pygame.init()
 
-screen = pygame.display.set_mode([370, 370])
+screen = pygame.display.set_mode([430, 430])
 pygame.display.set_caption("Kanji Match")
 clock = pygame.time.Clock()
-font = pygame.freetype.Font("data/Boku2-Bold.otf", 40)
+font = pygame.freetype.Font("data/Boku2-Bold.otf", 35)
+kanaFont = pygame.freetype.Font("data/Boku2-Bold.otf", 18)
 kanjiData = KanjiData()
 
 cards = []
@@ -26,6 +27,7 @@ def init():
             cards[i].text = key
         else:
             cards[i].text = value
+            cards[i].kana = True
         cards[i].id = int(i / 2)
 
     for i in range(len(cards)):
@@ -55,9 +57,9 @@ while running:
                                 else:
                                     card.error()
                                     selectedCard.error()
-                            selectedCard.selected = False
-                            selectedCard = None
                             break
+                    selectedCard.selected = False
+                    selectedCard = None
                 else:
                     for card in cards:
                         if card.hovered:
@@ -73,7 +75,16 @@ while running:
     for card in cards:
         card.update()
         card.checkHover()
-        card.draw(screen, font)
+
+        highlight = False
+        if selectedCard != None:
+            if selectedCard.kana != card.kana:
+                highlight = True
+
+        if card.kana:
+            card.draw(screen, kanaFont, highlight)
+        else:
+            card.draw(screen, font, highlight)
 
     for card in cards:
         if card.destructionTimer >= card.maxDestructionTimer:
