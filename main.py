@@ -1,5 +1,6 @@
 import pygame
 import pygame.freetype
+import random
 from card import Card
 from kanjiData import KanjiData
 pygame.init()
@@ -22,10 +23,16 @@ def init():
     for i in range(len(cards)):
         if i % 2 == 0:
             (key, value) = kanjiData.getCard()
-            cards[i].setText(key)
+            cards[i].text = key
         else:
-            cards[i].setText(value)
-        cards[i].setID(int(i / 2))
+            cards[i].text = value
+        cards[i].id = int(i / 2)
+
+    for i in range(len(cards)):
+        cardA = random.choice(cards)
+        cardB = random.choice(cards)
+        cardA.x, cardB.x = cardB.x, cardA.x
+        cardA.y, cardB.y = cardB.y, cardA.y
 
 init()
     
@@ -40,21 +47,28 @@ while running:
             if event.button == 1:
                 if selectedCard != None:
                     for card in cards:
-                        if card.isHovered() and not card.isSelected():
-                            if card.getID() == selectedCard.getID():
-                                card.destroy()
-                                selectedCard.destroy()
-                            selectedCard.setSelected(False)
+                        if card.hovered:
+                            if not card.selected:
+                                if card.id == selectedCard.id:
+                                    card.destroy()
+                                    selectedCard.destroy()
+                                else:
+                                    card.error()
+                                    selectedCard.error()
+                            selectedCard.selected = False
                             selectedCard = None
                             break
                 else:
                     for card in cards:
-                        if card.isHovered():
-                            card.setSelected(True)
+                        if card.hovered:
+                            card.selected = True
                             selectedCard = card
                             break
+            elif event.button == 3:
+                selectedCard.selected = False
+                selectedCard = None
 
-    screen.fill((143, 130, 79))
+    screen.fill((91, 117, 194))
 
     for card in cards:
         card.update()
@@ -62,7 +76,7 @@ while running:
         card.draw(screen, font)
 
     for card in cards:
-        if card.getDestructionTimer() >= 50:
+        if card.destructionTimer >= card.maxDestructionTimer:
             cards.remove(card)
     
     if len(cards) == 0:

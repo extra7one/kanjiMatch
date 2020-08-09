@@ -12,7 +12,7 @@ class KanjiData:
         self.deck = copy.deepcopy(self.data)
     
     def getCard(self):
-        difficulty = "easy"
+        difficulty = "kanji"
         card = random.choice(list(self.deck[difficulty].items()))
 
         (key, value) = card
