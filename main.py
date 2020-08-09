@@ -5,7 +5,7 @@ pygame.init()
 
 screen = pygame.display.set_mode([370, 370])
 pygame.display.set_caption("Kanji Match")
-font = pygame.freetype.Font('JF-Dot-Izumi16.ttf', 30)
+font = pygame.freetype.Font('Boku2-Bold.otf', 40)
 
 cards = []
 
@@ -23,6 +23,7 @@ while running:
     screen.fill((143, 130, 79))
 
     for card in cards:
+        card.checkHover()
         card.draw(screen, font)
 
     pygame.display.flip()

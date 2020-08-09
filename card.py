@@ -4,6 +4,9 @@ class Card:
     x = 0
     y = 0
     color = (200, 200, 55)
+    hoveredColor = (225, 225, 75)
+    hovered = False
+
     SIZE = 50
     SPACING = 10
 
@@ -11,6 +14,16 @@ class Card:
         self.x = x * (self.SIZE + self.SPACING) + self.SPACING
         self.y = y * (self.SIZE + self.SPACING) + self.SPACING
 
+    def checkHover(self):
+        mouseX, mouseY = pygame.mouse.get_pos()
+        if mouseX >= self.x and mouseX < self.x + self.SIZE and mouseY >= self.y and mouseY < self.y + self.SIZE:
+            self.hovered = True
+        else:
+            self.hovered = False
+
     def draw(self, screen, font):
-        pygame.draw.rect(screen, self.color, (self.x, self.y, self.SIZE, self.SIZE), 0)
-        font.render_to(screen, (self.x, self.y), "命ご", (0, 0, 0))
+        color = self.color
+        if self.hovered:
+            color = self.hoveredColor
+        pygame.draw.rect(screen, color, (self.x, self.y, self.SIZE, self.SIZE), 0)
+        font.render_to(screen, (self.x + 5, self.y + 5), "戦", (0, 0, 0))
