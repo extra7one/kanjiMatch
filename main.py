@@ -19,13 +19,13 @@ def init():
         for j in range(rowWidth):
             cards.append(Card(i, j))
 
-        for i in range(len(cards)):
-            if i % 2 == 0:
-                (key, value) = kanjiData.getCard()
-                cards[i].setText(key)
-            else:
-                cards[i].setText(value)
-            cards[i].setID(int(i / 2))
+    for i in range(len(cards)):
+        if i % 2 == 0:
+            (key, value) = kanjiData.getCard()
+            cards[i].setText(key)
+        else:
+            cards[i].setText(value)
+        cards[i].setID(int(i / 2))
 
 init()
     

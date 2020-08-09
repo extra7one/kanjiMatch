@@ -1,5 +1,6 @@
 import json
 import random
+import copy
 class KanjiData:
 
     def __init__(self):
@@ -8,9 +9,16 @@ class KanjiData:
             self.resetDeck()
 
     def resetDeck(self):
-        self.deck = self.data
+        self.deck = copy.deepcopy(self.data)
     
     def getCard(self):
         difficulty = "easy"
         card = random.choice(list(self.deck[difficulty].items()))
+
+        (key, value) = card
+        self.deck[difficulty].pop(key)
+
+        if len(self.deck[difficulty]) == 0:
+            self.resetDeck()
+
         return card
